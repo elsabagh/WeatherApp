@@ -11,6 +11,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
+import com.example.weatherapp.ui.theme.colorButtonWeather
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -19,6 +20,7 @@ fun TopAppBar(label: String, navController: NavController) {
         title = {
             Text(
                 text = label,
+                color = Color.White,
             )
         },
         navigationIcon = {
@@ -27,12 +29,14 @@ fun TopAppBar(label: String, navController: NavController) {
 
             }) {
                 Icon(
-                    Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back",
+                    Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = "Back",
+                    tint = Color.White
                 )
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = Color.White
+            containerColor = colorButtonWeather
         )
     )
 }
