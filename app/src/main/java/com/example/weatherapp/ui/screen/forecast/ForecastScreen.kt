@@ -27,18 +27,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.weatherapp.R
 import com.example.weatherapp.data.api.WeatherApi
 import com.example.weatherapp.data.model.Forecast
 import com.example.weatherapp.data.repository.WeatherRepositoryImpl
 import com.example.weatherapp.ui.components.TopAppBar
 import com.example.weatherapp.ui.theme.colorButtonWeather
+import com.example.weatherapp.util.NetworkUtils
 import com.example.weatherapp.util.PermissionsUtils
 import com.example.weatherapp.viewmodel.ForecastViewModel
 import com.example.weatherapp.viewmodel.ForecastViewModelFactory
+import kotlinx.coroutines.delay
 
 @SuppressLint("MissingPermission")
 @Composable
@@ -50,14 +54,19 @@ fun ForecastScreen(
     val forecastViewModel: ForecastViewModel = viewModel(
         factory = ForecastViewModelFactory(repository)
     )
-
-    LaunchedEffect(Unit) {
-        PermissionsUtils.handleLocationPermissionAndFetch(context) { lat, lon ->
-            forecastViewModel.loadForecastByCoordinates(lat, lon)
-        }
-    }
-
     val state by forecastViewModel.state.collectAsState()
+
+    LaunchedEffect(true) {
+        val connected = NetworkUtils.isNetworkAvailable(context)
+        if (connected) {
+            PermissionsUtils.handleLocationPermissionAndFetch(context) { lat, lon ->
+                forecastViewModel.loadForecastByCoordinates(context, lat, lon)
+            }
+        } else {
+            forecastViewModel.loadForecastByCoordinates(context, null, null)
+        }
+        delay(5000)
+    }
 
     Scaffold(
         topBar = { TopAppBar("Next 5 Days", navController) }
@@ -135,4 +144,22 @@ fun DayWeatherCard(forecast: Forecast) {
             Text(text = forecast.date, style = MaterialTheme.typography.bodyMedium)
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun DayWeatherCardPreview() {
+    val sampleForecast = Forecast(
+        temp = 25.0,
+        date = "2023-10-01",
+        tempMax = 35.0,
+        tempMin = 20.0,
+        description = "Sunny"
+    )
+    DayWeatherCard(forecast = sampleForecast)
+}
+@Preview(showBackground = true)
+@Composable
+fun ForecastScreenPreview() {
+    ForecastScreen(navController = rememberNavController())
 }

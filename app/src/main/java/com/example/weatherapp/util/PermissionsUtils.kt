@@ -8,6 +8,7 @@ import android.location.LocationManager
 import androidx.annotation.RequiresPermission
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.example.weatherapp.data.local.CacheManager
 
 object PermissionsUtils {
     const val LOCATION_PERMISSION_REQUEST_CODE = 100
@@ -38,6 +39,7 @@ object PermissionsUtils {
         if (activity != null && hasLocationPermission(activity)) {
             val location = LocationProvider.getCurrentLocation(context)
             if (location != null) {
+                CacheManager.saveCoordinates(context, location.first, location.second)
                 onPermissionGranted(location.first, location.second)
             } else {
                 val locationManager =
@@ -45,6 +47,11 @@ object PermissionsUtils {
                 locationManager.requestLocationUpdates(
                     LocationManager.NETWORK_PROVIDER, 0L, 0f
                 ) { newLocation ->
+                    CacheManager.saveCoordinates(
+                        context,
+                        newLocation.latitude,
+                        newLocation.longitude
+                    )
                     onPermissionGranted(newLocation.latitude, newLocation.longitude)
                 }
             }
@@ -52,5 +59,4 @@ object PermissionsUtils {
             activity?.let { requestLocationPermission(it) }
         }
     }
-
 }

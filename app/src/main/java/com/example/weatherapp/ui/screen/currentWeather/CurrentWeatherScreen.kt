@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -38,14 +39,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.weatherapp.R
 import com.example.weatherapp.data.api.WeatherApi
 import com.example.weatherapp.data.repository.WeatherRepositoryImpl
 import com.example.weatherapp.navigation.NavigationRoutes
 import com.example.weatherapp.ui.theme.colorButtonWeather
+import com.example.weatherapp.util.NetworkUtils
 import com.example.weatherapp.util.PermissionsUtils
 import com.example.weatherapp.viewmodel.CurrentWeatherViewModel
 import com.example.weatherapp.viewmodel.CurrentWeatherViewModelFactory
+import kotlinx.coroutines.delay
 
 @SuppressLint("MissingPermission")
 @Composable
@@ -58,10 +62,17 @@ fun CurrentWeatherScreen(navController: NavController) {
     )
     val state by viewModel.state.collectAsState()
 
-    LaunchedEffect(Unit) {
-        PermissionsUtils.handleLocationPermissionAndFetch(context) { lat, lon ->
-            viewModel.loadWeatherByCoordinates(lat, lon)
+    LaunchedEffect(true) {
+        val connected = NetworkUtils.isNetworkAvailable(context)
+
+        if (connected) {
+            PermissionsUtils.handleLocationPermissionAndFetch(context) { lat, lon ->
+                viewModel.loadWeatherByCoordinates(context, lat, lon)
+            }
+        } else {
+            viewModel.loadWeatherByCoordinates(context, null, null)
         }
+        delay(5000)
     }
 
     Column(
@@ -121,7 +132,7 @@ fun CurrentWeatherScreen(navController: NavController) {
             Text("Show Next 5 Day")
             Spacer(modifier = Modifier.weight(1f))
             Icon(
-                imageVector = Icons.Filled.KeyboardArrowRight,
+                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
                 contentDescription = null,
                 modifier = Modifier.size(24.dp)
             )
@@ -200,9 +211,26 @@ fun WeatherCard(
     }
 }
 
+@Preview(showBackground = true)
+@Composable
+fun WeatherMainCarPreview() {
+    WeatherMainCar(
+        description = "Sunny",
+        temperature = "25"
+    )
+}
 
 @Preview(showBackground = true)
 @Composable
+fun WeatherCardPreview() {
+    WeatherCard(
+        itemWeather = "Humidity",
+        itemValue = "65%",
+        imageResource = R.drawable.humidity
+    )
+}
+@Preview(showBackground = true)
+@Composable
 fun CurrentWeatherScreenPreview() {
-    CurrentWeatherScreen(navController = NavController(LocalContext.current))
+    CurrentWeatherScreen(navController = rememberNavController() )
 }
