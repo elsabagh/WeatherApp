@@ -1,9 +1,11 @@
 package com.example.weatherapp.domain.repository
 
-import com.example.weatherapp.data.model.Forecast
-import com.example.weatherapp.data.model.Weather
+import com.example.weatherapp.domain.model.UserLocation
+import com.example.weatherapp.domain.model.WeatherData
+import kotlinx.coroutines.flow.Flow
 
 interface WeatherRepository {
-    suspend fun getCurrentWeatherByLocation(location: String): Weather
-    suspend fun getForecast(location: String): List<Forecast>
+    fun getWeatherData(
+        location: UserLocation
+    ): Flow<WeatherData>
 }

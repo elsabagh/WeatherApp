@@ -1,24 +1,22 @@
 package com.example.weatherapp
 
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.navigation.compose.rememberNavController
-import com.example.weatherapp.navigation.NavGraph
-import com.example.weatherapp.util.PermissionsUtils
+import androidx.annotation.RequiresApi
+import com.example.weatherapp.presentation.WeatherScreen
+import com.example.weatherapp.presentation.ui.theme.WeatherAppTheme
 
 class MainActivity : ComponentActivity() {
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        if (!PermissionsUtils.hasLocationPermission(this)) {
-            PermissionsUtils.requestLocationPermission(this)
-        }
-
         setContent {
-            val navController = rememberNavController()
-            NavGraph(navController = navController)
+            WeatherAppTheme {
+                WeatherScreen()
+            }
         }
     }
 }

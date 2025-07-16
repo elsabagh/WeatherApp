@@ -1,3 +1,19 @@
 <resources>
-    <string name="app_name">WeatherApp</string>
+    <string name="app_name">Weather App</string>
+    <string name="clear_sky">Clear sky</string>
+    <string name="mainly_clear">Mainly clear</string>
+    <string name="partly_cloudy">Partly cloudy</string>
+    <string name="overcast">Overcast</string>
+    <string name="fog">Fog</string>
+    <string name="drizzle">Drizzle</string>
+    <string name="freezing_drizzle">Freezing drizzle</string>
+    <string name="rain">Rain</string>
+    <string name="freezing_rain">Freezing rain</string>
+    <string name="snow">Snow</string>
+    <string name="snow_grains">Snow grains</string>
+    <string name="rain_showers">Rain showers</string>
+    <string name="snow_showers">Snow showers</string>
+    <string name="thunderstorm">Thunderstorm</string>
+    <string name="unknown">Unknown</string>
+
 </resources>

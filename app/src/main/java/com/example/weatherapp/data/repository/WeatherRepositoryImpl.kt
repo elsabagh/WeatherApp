@@ -1,18 +1,23 @@
 package com.example.weatherapp.data.repository
 
-import com.example.weatherapp.data.api.WeatherApi
-import com.example.weatherapp.data.model.Forecast
-import com.example.weatherapp.data.model.Weather
+import com.example.weatherapp.data.api.WeatherApiService
+import com.example.weatherapp.data.mapper.toDomain
+import com.example.weatherapp.domain.model.UserLocation
+import com.example.weatherapp.domain.model.WeatherData
 import com.example.weatherapp.domain.repository.WeatherRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import org.koin.core.annotation.Single
 
+@Single
 class WeatherRepositoryImpl(
-    private val weatherApi: WeatherApi,
+    private val apiService: WeatherApiService,
 ) : WeatherRepository {
-    override suspend fun getCurrentWeatherByLocation(location: String): Weather {
-        return weatherApi.fetchCurrentWeather(location)
-    }
 
-    override suspend fun getForecast(location: String): List<Forecast> {
-        return weatherApi.fetchForecast(location)
+    override fun getWeatherData(
+        location: UserLocation,
+    ): Flow<WeatherData> = flow {
+        val response = apiService.getWeatherData(location)
+        emit(response.toDomain())
     }
 }
