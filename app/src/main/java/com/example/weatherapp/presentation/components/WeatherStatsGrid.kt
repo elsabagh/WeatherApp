@@ -12,7 +12,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
@@ -76,7 +75,7 @@ fun WeatherStatsGrid(current: CurrentConditions) {
 @Composable
 fun StatCard(icon: Int, value: String, label: String, modifier: Modifier = Modifier) {
     Surface(
-        color = Color(0xFFF1F9FF),
+        color = MaterialTheme.colorScheme.surface,
         shape = MaterialTheme.shapes.medium,
         modifier = modifier
     ) {
@@ -89,13 +88,13 @@ fun StatCard(icon: Int, value: String, label: String, modifier: Modifier = Modif
             Icon(
                 imageVector = ImageVector.vectorResource(icon),
                 contentDescription = null,
-                tint = Color(0xFF54AAD7),
+                tint = MaterialTheme.colorScheme.primary
             )
             Text(
                 text = value,
                 fontWeight = FontWeight.Bold,
                 fontSize = 16.sp,
-                color = Color.Black,
+                color = MaterialTheme.colorScheme.onSurface,
                 textAlign = TextAlign.Center,
                 letterSpacing = 0.25.sp,
                 modifier = Modifier.padding(top = 8.dp)
@@ -103,7 +102,7 @@ fun StatCard(icon: Int, value: String, label: String, modifier: Modifier = Modif
             Text(
                 text = label,
                 fontSize = 14.sp,
-                color = Color.Gray,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 fontWeight = FontWeight.Normal,
                 textAlign = TextAlign.Center,
                 letterSpacing = 0.25.sp,

@@ -5,17 +5,14 @@ import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.systemBars
-import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -23,6 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.example.weatherapp.core.util.Result
 import com.example.weatherapp.presentation.components.CurrentWeatherSection
 import com.example.weatherapp.presentation.components.DailyForecastSection
@@ -38,7 +36,6 @@ fun WeatherScreen(
 ) {
     val weatherState by viewModel.weatherState.collectAsState()
     val userLocation by viewModel.userLocation.collectAsState()
-
     var permissionHandled by remember { mutableStateOf(false) }
 
     LocationPermissionHandler(
@@ -59,7 +56,9 @@ fun WeatherScreen(
     when (val result = weatherState) {
         is Result.Loading -> {
             Box(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.background),
                 contentAlignment = Alignment.Center
             ) {
                 CircularProgressIndicator()
@@ -68,7 +67,9 @@ fun WeatherScreen(
 
         is Result.Error -> {
             Box(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.background),
                 contentAlignment = Alignment.Center
             ) {
                 Text("Error: ${result.message ?: "Unknown error"}")
@@ -82,7 +83,8 @@ fun WeatherScreen(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .windowInsetsPadding(WindowInsets.systemBars)
+                    .background(MaterialTheme.colorScheme.background)
+                    .padding(top = 36.dp)
             ) {
                 Column(
                     modifier = Modifier

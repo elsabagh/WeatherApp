@@ -37,7 +37,7 @@ fun DailyForecastSection(dailyList: List<DailyWeather>) {
         Text(
             text = "Next Days",
             style = MaterialTheme.typography.titleMedium,
-            color = Color.Black
+            color = MaterialTheme.colorScheme.onBackground
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -61,7 +61,7 @@ fun DailyForecastItem(
     val iconRes = painterResource(id = condition.toDrawableRes(isDay = true))
 
     Surface(
-        color = Color(0xFFE3F2FD),
+        color = MaterialTheme.colorScheme.surface,
         shape = MaterialTheme.shapes.medium,
         modifier = modifier
             .fillMaxWidth()
@@ -74,7 +74,7 @@ fun DailyForecastItem(
                 text = formatToWeekday(day.date),
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Medium,
-                color = Color.Black,
+                color = MaterialTheme.colorScheme.onSurface,
                 textAlign = TextAlign.Start,
                 letterSpacing = 0.25.sp,
                 modifier = Modifier
@@ -89,7 +89,7 @@ fun DailyForecastItem(
             Text(
                 text = "${day.maxTemp.toInt()}° / ${day.minTemp.toInt()}°",
                 fontSize = 16.sp,
-                color = Color.Black,
+                color = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier.align(Alignment.CenterEnd)
             )
         }

@@ -46,9 +46,18 @@ fun CurrentWeatherSection(
             .fillMaxWidth()
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(Icons.Default.Place, contentDescription = null, tint = Color.Black)
+            Icon(
+                Icons.Default.Place,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onBackground
+            )
             Spacer(modifier = Modifier.width(4.dp))
-            Text(city, fontSize = 18.sp, fontWeight = FontWeight.Medium, color = Color.Black)
+            Text(
+                city,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Medium,
+                color = MaterialTheme.colorScheme.onBackground
+            )
         }
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -66,7 +75,7 @@ fun CurrentWeatherSection(
             "${current.temperature}°C",
             fontSize = 48.sp,
             fontWeight = FontWeight.Bold,
-            color = Color.Black
+            color = MaterialTheme.colorScheme.onBackground
         )
 
         Spacer(modifier = Modifier.height(4.dp))
@@ -74,18 +83,21 @@ fun CurrentWeatherSection(
         Text(
             text = stringResource(id = condition.toLocalizedStringRes()),
             fontSize = 18.sp,
-            color = Color.Gray,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center
         )
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        Surface(color = Color(0xFFE0F2F1), shape = MaterialTheme.shapes.medium) {
+        Surface(
+            color = MaterialTheme.colorScheme.surface,
+            shape = MaterialTheme.shapes.medium
+        ) {
             Text(
                 text = "↑ ${maxTemp.toInt()}°C   ↓ ${minTemp.toInt()}°C",
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                 fontSize = 16.sp,
-                color = Color.Black
+                color = MaterialTheme.colorScheme.onSurface
             )
         }
     }

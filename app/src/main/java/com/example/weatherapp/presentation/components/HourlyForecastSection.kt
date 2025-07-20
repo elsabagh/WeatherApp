@@ -39,7 +39,7 @@ fun HourlyForecastSection(
         Text(
             text = "Today",
             style = MaterialTheme.typography.titleMedium,
-            color = Color.Black
+            color = MaterialTheme.colorScheme.onBackground
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -63,7 +63,7 @@ fun HourlyWeatherCard(hour: HourlyWeather) {
     val iconRes = painterResource(id = condition.toDrawableRes(hour.isDay))
 
     Surface(
-        color = Color(0xFFF1F9FF),
+        color = MaterialTheme.colorScheme.surface,
         shape = MaterialTheme.shapes.medium,
         modifier = Modifier.size(80.dp, 120.dp)
     ) {
@@ -74,13 +74,20 @@ fun HourlyWeatherCard(hour: HourlyWeather) {
         ) {
             Text(
                 text = formatHour(hour.time),
-                fontSize = 14.sp, color = Color.Gray
+                fontSize = 14.sp, color = MaterialTheme.colorScheme.onSurfaceVariant
+
             )
             Icon(
-                painter = iconRes, contentDescription = null, tint = Color.Unspecified, modifier = Modifier.size(40.dp)
+                painter = iconRes,
+                contentDescription = null,
+                tint = Color.Unspecified,
+                modifier = Modifier.size(40.dp)
             )
             Text(
-                text = "${hour.temperature.toInt()}°", fontSize = 16.sp, color = Color.Black
+                text = "${hour.temperature.toInt()}°",
+                fontSize = 16.sp,
+                color = MaterialTheme.colorScheme.onSurface
+
             )
         }
     }
